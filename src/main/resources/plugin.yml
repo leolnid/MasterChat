@@ -1,0 +1,11 @@
+name: MasterChat
+version: ${project.version}
+main: ru.leocraft.masterchat.masterchat.MasterChat
+api-version: 1.16
+prefix: MasterChat
+load: STARTUP
+depend: [ Vault ]
+softdepend: [ PlaceholderAPI ]
+authors: [ leolnid ]
+description: Chat plugin
+website: leocraft.ru

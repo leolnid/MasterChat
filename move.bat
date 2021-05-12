@@ -1,0 +1,1 @@
+xcopy target\MasterChat-1.0-SNAPSHOT.jar plugins /Y
