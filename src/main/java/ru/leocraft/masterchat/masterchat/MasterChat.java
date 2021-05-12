@@ -6,18 +6,16 @@ import io.socket.client.Socket;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.gson.GsonComponentSerializer;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
-import net.milkbowl.vault.chat.Chat;
 import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.permission.Permission;
 import org.bukkit.command.Command;
-import org.bukkit.command.CommandMap;
 import org.bukkit.entity.Player;
 import org.bukkit.event.HandlerList;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 import ru.leocraft.masterchat.masterchat.channels.Channel;
 import ru.leocraft.masterchat.masterchat.channels.ChannelManager;
-import ru.leocraft.masterchat.masterchat.commands.*;
+import ru.leocraft.masterchat.masterchat.commands.CommandsManager;
 import ru.leocraft.masterchat.masterchat.messages.TemplateMessage;
 import ru.leocraft.masterchat.masterchat.settings.Settings;
 import ru.leocraft.masterchat.masterchat.settings.properties.PluginSettings;
@@ -57,10 +55,12 @@ public final class MasterChat extends JavaPlugin {
 
     @Override
     public void onEnable() {
+        // ==============    Basic staff    ====================
         Instance = this;
-        // Basic staff
+        this.setEnabled(true);
         new Settings();
         new ConsoleLogger();
+        // =====================================================
 
         if (!setupEconomy()) {
             ConsoleLogger.Instance.log(String.format("[%s] - Disabled due to no Vault dependency found!", getDescription().getName()));
