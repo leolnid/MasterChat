@@ -30,8 +30,8 @@ jobs:
     - name: Build with Maven
       run: mvn --batch-mode --update-snapshots verify
     - name: Upload
-      uses: actions/upload-artifact@v2-previe
+      uses: actions/upload-artifact@v2.2.3
       with:
-        name: MasterChat-0.1
-        path: target/MasterChat-0.1.jar
+        name: MasterChat
+        path: target/MasterChat-*.jar
    
