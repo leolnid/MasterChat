@@ -32,6 +32,6 @@ jobs:
     - name: Upload
       uses: actions/upload-artifact@v2.2.3
       with:
-        name: MasterChat.jar
-        path: target/MasterChat*.jar
+        name: MasterChat-0.1
+        path: target/MasterChat-0.1.jar
    
