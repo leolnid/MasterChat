@@ -30,8 +30,10 @@ public class ClearChatCommand extends Command {
         MessageSender.broadcastSystemMessage(TemplateMessage.NEW_LINE_100);
         if (sender instanceof Player)
             MessageSender.broadcastSystemMessage((Player) sender, TemplateMessage.CLEAR_CHAT, "");
+        else
+            // Message to console sender
+            sender.sendMessage("Chat was cleared");
 
-        sender.sendMessage("§7[§a" + MasterChat.Instance.getDescription().getPrefix() + "§7] Plugin was reloaded");
         return true;
     }
 
