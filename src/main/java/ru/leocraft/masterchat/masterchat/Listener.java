@@ -24,7 +24,7 @@ public class Listener implements org.bukkit.event.Listener {
             MasterChat.History.onPlayerJoin(player);
             ChannelManager.Instance.onPlayerJoin(player);
         });
-        ConsoleLogger.Instance.debug("Listener module loaded");
+        ConsoleLogger.Instance.debug(this.getClass().getName()  + " module loaded");
     }
 
     // =====================================================================================

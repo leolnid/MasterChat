@@ -33,4 +33,14 @@ public class MessageSender {
                 SYSTEM_MESSAGE_SENDER,
                 preparedMessage.apply(receiver)));
     }
+
+    public static void broadcastSystemMessage(Component message) {
+        ConsoleLogger.Instance.debug("Start broadcasting message.");
+
+        MasterChat.Instance.getServer().getOnlinePlayers().forEach(receiver -> send(
+                receiver,
+                SYSTEM_MESSAGE_HASH,
+                SYSTEM_MESSAGE_SENDER,
+                message));
+    }
 }

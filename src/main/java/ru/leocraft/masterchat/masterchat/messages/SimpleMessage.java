@@ -16,7 +16,7 @@ public class SimpleMessage {
     public SimpleMessage(List<String> tagsNames) {
         this.tags = tagsNames
                 .stream()
-                .map(tag -> Settings.getProperty(TagsSettings.TAGS).get(tag))
+                .map(tag -> Settings.getTagProperty(TagsSettings.TAGS).get(tag))
                 .collect(Collectors.toList());
     }
 

@@ -14,7 +14,7 @@ public class MasterChatCommand extends Command {
     private final Map<String, Command> subCommands;
 
     public MasterChatCommand() {
-        super("MasterChat", "Main command of MasterChatPlugin", "/MasterChat <sub-command>", List.of("MC"));
+        super("MasterChat", "Main command of MasterChatPlugin", "/MasterChat <sub-command>", new ArrayList<>());
         Instance = this;
 
         subCommands = new HashMap<>();

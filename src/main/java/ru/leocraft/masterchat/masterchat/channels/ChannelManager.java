@@ -35,7 +35,7 @@ public class ChannelManager {
         this.playersChannels = new HashMap<>();
 
         this.defaultChannel = this.channels.get(Settings.getProperty(PluginSettings.DEFAULT_CHANNEL));
-        ConsoleLogger.Instance.debug("ChannelManager module loaded");
+        ConsoleLogger.Instance.debug(this.getClass().getName()  + " module loaded");
     }
 
     public boolean isPlayerInChannel(Player player, Channel channel) {
@@ -91,9 +91,5 @@ public class ChannelManager {
         }
 
         playersChannels.get(sender.getName()).sendMessage(sender, message);
-    }
-
-    public void destroy() {
-        channels.values().forEach(Channel::destroy);
     }
 }

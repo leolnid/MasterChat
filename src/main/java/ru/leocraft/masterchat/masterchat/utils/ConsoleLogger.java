@@ -9,7 +9,7 @@ public class ConsoleLogger {
 
     public ConsoleLogger() {
         Instance = this;
-        ConsoleLogger.Instance.debug("Logger module loaded");
+        ConsoleLogger.Instance.debug(this.getClass().getName()  + " module loaded");
     }
 
     public void debug(String message) {

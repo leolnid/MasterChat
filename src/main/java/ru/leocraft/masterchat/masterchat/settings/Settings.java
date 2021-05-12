@@ -16,6 +16,7 @@ public class Settings {
     public static Settings Instance;
 
     private final SettingsManager settings;
+    private final SettingsManager tags;
     private final Map<String, SettingsManager> chats;
 
     public Settings() {
@@ -28,8 +29,16 @@ public class Settings {
                                 + "config.yml"))
                 .configurationData(
                         PluginSettings.class,
-                        TagsSettings.class,
                         MessageSettings.class)
+                .useDefaultMigrationService()
+                .create();
+
+        tags = SettingsManagerBuilder
+                .withYamlFile(Paths.get(
+                        MasterChat.Instance.getDataFolder()
+                                + File.separator
+                                + "tags.yml"))
+                .configurationData(TagsSettings.class)
                 .useDefaultMigrationService()
                 .create();
 
@@ -62,7 +71,11 @@ public class Settings {
     }
 
     public static <T> T getProperty(Property<T> property) {
-        return Settings.Instance.getSettings().getProperty(property);
+        return Settings.Instance.settings.getProperty(property);
+    }
+
+    public static <T> T getTagProperty(Property<T> property) {
+        return Settings.Instance.tags.getProperty(property);
     }
 
     public static <T> T getChatProperty(String chatName, Property<T> property) {
@@ -74,9 +87,4 @@ public class Settings {
             ConsoleLogger.Instance.log("Can't get chat with name: " + name);
         return chats.get(name);
     }
-
-    private SettingsManager getSettings() {
-        return settings;
-    }
-
 }

@@ -12,10 +12,8 @@ import java.util.List;
 
 
 public class GetHistoryCommand extends Command {
-    public static GetHistoryCommand Instance;
     public GetHistoryCommand() {
         super("history");
-        Instance = this;
 
         MasterChatCommand.Instance.addSubCommand(this);
         MasterChat.registerCommand(this);

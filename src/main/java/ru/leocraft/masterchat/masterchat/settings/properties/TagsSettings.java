@@ -10,9 +10,6 @@ import ru.leocraft.masterchat.masterchat.messages.SimpleTag;
 
 public class TagsSettings implements SettingsHolder {
     @Comment({
-            "",
-            "",
-            "",
             "#########################################################################################################",
             "#",
             "# This is tags, that used in messages",
@@ -21,7 +18,6 @@ public class TagsSettings implements SettingsHolder {
             "#########################################################################################################"
     })
     public static final MapProperty<SimpleTag> TAGS = new PropertyBuilder.MapPropertyBuilder<>(BeanPropertyType.of(SimpleTag.class))
-            .path("tags")
             // =========================================================================================================
             // ====================================          Basic massage             =================================
             // =========================================================================================================
@@ -56,5 +52,8 @@ public class TagsSettings implements SettingsHolder {
             .defaultEntry("channel-list", new SimpleTag("§7Available channels: \\n§0.............§7%content%\\n"))
             .defaultEntry("player-join-message", new SimpleTag("§7New player %player-name%"))
             .defaultEntry("player-quit-message", new SimpleTag("§7Player quit %player-name%"))
+            .defaultEntry("clear-chat-message", new SimpleTag("§7Chat was cleared by %player-name%"))
+
+            .path("tags")
             .build();
 }

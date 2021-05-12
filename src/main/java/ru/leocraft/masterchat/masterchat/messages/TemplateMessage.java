@@ -1,7 +1,12 @@
 package ru.leocraft.masterchat.masterchat.messages;
 
+import net.kyori.adventure.text.Component;
+import net.kyori.adventure.text.ScopedComponent;
 import ru.leocraft.masterchat.masterchat.settings.Settings;
 import ru.leocraft.masterchat.masterchat.settings.properties.MessageSettings;
+import ru.leocraft.masterchat.masterchat.utils.ConsoleLogger;
+
+import java.util.Collections;
 
 public class TemplateMessage {
     public static SimpleMessage REMOVED_MESSAGE;
@@ -15,8 +20,12 @@ public class TemplateMessage {
     public static SimpleMessage CHANNELS_LIST;
     public static SimpleMessage PLAYER_JOIN;
     public static SimpleMessage PLAYER_QUIT;
+    public static SimpleMessage CLEAR_CHAT;
+    public static Component NEW_LINE_100 = Collections.nCopies(100, Component.newline()).stream().reduce(Component.empty(), ScopedComponent::append);
+
 
     public TemplateMessage Instance;
+
     public TemplateMessage() {
         Instance = this;
 
@@ -31,5 +40,8 @@ public class TemplateMessage {
         CHANNELS_LIST = new SimpleMessage(Settings.getProperty(MessageSettings.CHANNELS_LIST));
         PLAYER_JOIN = new SimpleMessage(Settings.getProperty(MessageSettings.PLAYER_JOIN_MESSAGE));
         PLAYER_QUIT = new SimpleMessage(Settings.getProperty(MessageSettings.PLAYER_QUIT_MESSAGE));
+        CLEAR_CHAT = new SimpleMessage(Settings.getProperty(MessageSettings.CLEAR_CHAT));
+
+        ConsoleLogger.Instance.debug(this.getClass().getName()  + " module loaded");
     }
 }

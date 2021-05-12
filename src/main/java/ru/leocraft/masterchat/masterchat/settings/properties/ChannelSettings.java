@@ -17,5 +17,4 @@ public class ChannelSettings implements SettingsHolder {
     public static final Property<Double> COST = newProperty("cost", 0f);
     public static final Property<Integer> DISTANCE = newProperty("distance", 0);
     public static final Property<Boolean> SEND_TO_SOCKET = newProperty("send-to-socket", false);
-
 }

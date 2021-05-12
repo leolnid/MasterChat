@@ -5,6 +5,7 @@ import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import ru.leocraft.masterchat.masterchat.MasterChat;
+import ru.leocraft.masterchat.masterchat.messages.TemplateMessage;
 import ru.leocraft.masterchat.masterchat.settings.Settings;
 import ru.leocraft.masterchat.masterchat.messages.SimpleTag;
 import ru.leocraft.masterchat.masterchat.messages.Type;
@@ -18,17 +19,17 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-public class History implements Listener {
+public class History {
     public Map<Player, LimitedLinkedList<Triple<Integer, String, Component>>> history;
 
     public History() {
         history = new HashMap<>();
-        ConsoleLogger.Instance.debug("History module loaded");
+        ConsoleLogger.Instance.debug(this.getClass().getName()  + " module loaded");
     }
 
     private void addPlayer(Player player) {
         ConsoleLogger.Instance.debug("Added new player " + player.getName() + " to history module");
-        this.history.put(player, new LimitedLinkedList<>(60));
+        this.history.put(player, new LimitedLinkedList<>(100));
     }
 
     private void removePlayer(Player player) {
@@ -53,15 +54,13 @@ public class History implements Listener {
         ConsoleLogger.Instance.debug("Start history cleaning. Hash: " + removedMessageHash);
         List<SimpleTag> removeMessageTags = Settings.getProperty(MessageSettings.REMOVED_MESSAGE)
                 .stream()
-                .map(v -> Settings.getProperty(TagsSettings.TAGS).get(v))
+                .map(v -> Settings.getTagProperty(TagsSettings.TAGS).get(v))
                 .collect(Collectors.toList());
 
         for (Map.Entry<Player, LimitedLinkedList<Triple<Integer, String, Component>>> onePlayerHistory : this.history.entrySet()) {
             Player originalMessageReceiver = onePlayerHistory.getKey();
             ConsoleLogger.Instance.debug("Start history cleaning. Player: " + originalMessageReceiver.getName());
-            for (int i = 0; i < 101; i++) {
-                originalMessageReceiver.sendMessage(Component.newline());
-            }
+            originalMessageReceiver.sendMessage(TemplateMessage.NEW_LINE_100);
 
             for (Triple<Integer, String, Component> message : onePlayerHistory.getValue()) {
                 if (message.getV1() != removedMessageHash) {

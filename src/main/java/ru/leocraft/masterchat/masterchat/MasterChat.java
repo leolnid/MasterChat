@@ -57,13 +57,10 @@ public final class MasterChat extends JavaPlugin {
 
     @Override
     public void onEnable() {
-        this.setEnabled(true);
         Instance = this;
         // Basic staff
         new Settings();
         new ConsoleLogger();
-        serverName = Settings.getProperty(PluginSettings.SERVER_NAME);
-        if (serverName.isEmpty()) serverName = getServer().getName();
 
         if (!setupEconomy()) {
             ConsoleLogger.Instance.log(String.format("[%s] - Disabled due to no Vault dependency found!", getDescription().getName()));
@@ -74,23 +71,16 @@ public final class MasterChat extends JavaPlugin {
         if (permission.hasGroupSupport())
             getRole = permission::getPrimaryGroup;
 
+        // Modules
         History = new History();
         new TemplateMessage();
+        new CommandsManager();
+        new ChannelManager(chats.stream().map(Channel::new).collect(Collectors.toList()));
+        getServer().getPluginManager().registerEvents(new Listener(), MasterChat.Instance);
 
-        // Register commands
-        new MasterChatCommand();
-        new ChangeChannelCommand();
-        new ReloadCommand();
-        new RemoveCommand();
-        new GetHistoryCommand();
-
-        // Register channels
-        List<Channel> channels = chats.stream().map(Channel::new).collect(Collectors.toList());
-        new ChannelManager(channels);
-
-        // Register player event listener
-        new Listener();
-        getServer().getPluginManager().registerEvents(Listener.Instance, MasterChat.Instance);
+        // Socket setup
+        serverName = Settings.getProperty(PluginSettings.SERVER_NAME);
+        if (serverName.isEmpty()) serverName = getServer().getName();
 
         if (!Settings.getProperty(PluginSettings.SOCKET_URL).isEmpty()) {
             ConsoleLogger.Instance.debug("Create new socket client. " + Settings.getProperty(PluginSettings.SOCKET_URL));
@@ -112,37 +102,10 @@ public final class MasterChat extends JavaPlugin {
 
     @Override
     public void onDisable() {
-        socket.close();
-
-        // Get CommandMap
-        CommandMap map = Instance.getServer().getCommandMap();
-
-        // Unregister commands
-        ReloadCommand.Instance.unregister(map);
-        ConsoleLogger.Instance.debug("Reload command was removed from map");
-
-        RemoveCommand.Instance.unregister(map);
-        ConsoleLogger.Instance.debug("Remove command was removed from map");
-
-        GetHistoryCommand.Instance.unregister(map);
-        ConsoleLogger.Instance.debug("GetHistory command was removed from map");
-
-        ChangeChannelCommand.Instance.unregister(map);
-        ConsoleLogger.Instance.debug("ChangeChannel command was removed from map");
-
-        MasterChatCommand.Instance.unregister(map);
-        ConsoleLogger.Instance.debug("MasterChat command was removed from map");
-
-        // Destroy channel commands and channels
-        ChannelManager.Instance.destroy();
-        ConsoleLogger.Instance.debug("Channel commands was removed from map");
-
-        History = null;
-        ConsoleLogger.Instance.debug("History = null");
-
-        // Unregister listeners
         HandlerList.unregisterAll(Listener.Instance);
-        ConsoleLogger.Instance.debug("Unregister listener");
+        CommandsManager.Instance.unregisterAllCommands();
+        History = null;
+        socket.close();
     }
 
     private boolean setupEconomy() {

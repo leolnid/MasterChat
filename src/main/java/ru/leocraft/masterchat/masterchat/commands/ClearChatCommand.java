@@ -2,17 +2,20 @@ package ru.leocraft.masterchat.masterchat.commands;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
+import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
-import ru.leocraft.masterchat.masterchat.utils.ConsoleLogger;
 import ru.leocraft.masterchat.masterchat.MasterChat;
+import ru.leocraft.masterchat.masterchat.messages.MessageSender;
+import ru.leocraft.masterchat.masterchat.messages.TemplateMessage;
+import ru.leocraft.masterchat.masterchat.utils.ConsoleLogger;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class ReloadCommand extends Command {
-    public ReloadCommand() {
-        super("reload");
+public class ClearChatCommand extends Command {
+    public ClearChatCommand() {
+        super("clear");
 
         MasterChatCommand.Instance.addSubCommand(this);
         MasterChat.registerCommand(this);
@@ -24,8 +27,9 @@ public class ReloadCommand extends Command {
     public boolean execute(@NotNull CommandSender sender, @NotNull String alias, @NotNull String[] args) {
         ConsoleLogger.Instance.debug("Command executed: " + alias + " " + Arrays.toString(args));
 
-        MasterChat.Instance.onDisable();
-        MasterChat.Instance.onEnable();
+        MessageSender.broadcastSystemMessage(TemplateMessage.NEW_LINE_100);
+        if (sender instanceof Player)
+            MessageSender.broadcastSystemMessage((Player) sender, TemplateMessage.CLEAR_CHAT, "");
 
         sender.sendMessage("§7[§a" + MasterChat.Instance.getDescription().getPrefix() + "§7] Plugin was reloaded");
         return true;
