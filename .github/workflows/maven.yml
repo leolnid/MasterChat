@@ -25,4 +25,6 @@ jobs:
       run: mvn -B package --file pom.xml
     - name: Upload
       uses: actions/upload-artifact@v2.2.3
+      with:
+        path: target/MasterChat*.jar
    
