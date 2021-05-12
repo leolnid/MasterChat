@@ -4,10 +4,10 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
-import ru.leocraft.masterchat.masterchat.utils.ConsoleLogger;
 import ru.leocraft.masterchat.masterchat.MasterChat;
 import ru.leocraft.masterchat.masterchat.messages.MessageSender;
 import ru.leocraft.masterchat.masterchat.messages.TemplateMessage;
+import ru.leocraft.masterchat.masterchat.utils.ConsoleLogger;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -45,24 +45,17 @@ public class ChangeChannelCommand extends Command {
             if (sender instanceof Player) {
                 MessageSender.sendSystemMessage((Player) sender, TemplateMessage.CHANNELS_LIST, String.join(", ", subCommands.keySet()));
             } else {
+                // Message to console sender
                 sender.sendMessage(String.join(", ", subCommands.keySet()));
             }
             return true;
-        }
-
-        if (!args[0].matches("\\w+")) {
-            if (sender instanceof Player) {
-                MessageSender.sendSystemMessage((Player) sender, TemplateMessage.INVALID_COMMAND_USAGE, "Invalid command argument: " + args[0]);
-            } else {
-                sender.sendMessage("Invalid command argument: " + args[0]);
-            }
-            return false;
         }
 
         if (!subCommands.containsKey(args[0])) {
             if (sender instanceof Player) {
                 MessageSender.sendSystemMessage((Player) sender, TemplateMessage.UNKNOWN_CHANNEL, "Unknown channel name");
             } else {
+                // Message to console sender
                 sender.sendMessage("Unknown channel name");
             }
             return false;
